@@ -1,0 +1,140 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using WebApplication1.Data;
+using WebApplication1.DTOs;
+using WebApplication1.Models;
+
+namespace WebApplication1.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class BooksController : ControllerBase
+    {
+        private readonly AppDbContext _context;
+
+        public BooksController(AppDbContext context)
+        {
+            _context = context;
+        }
+
+        // GET: api/books
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
+        {
+            return await _context.Books
+                .Include(b => b.Category)
+                .ToListAsync();
+        }
+
+        // GET: api/books/1
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Book>> GetBook(int id)
+        {
+            var book = await _context.Books
+                .Include(b => b.Category)
+                .FirstOrDefaultAsync(b => b.Id == id);
+
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            return book;
+        }
+
+        // POST: api/books
+        [HttpPost]
+        public async Task<ActionResult<Book>> CreateBook(BookDto dto)
+        {
+            var categoryExists =
+                await _context.Categories.AnyAsync(c => c.Id == dto.CategoryId);
+
+            if (!categoryExists)
+            {
+                return BadRequest("Thể loại không tồn tại.");
+            }
+
+            var book = new Book
+            {
+                Title = dto.Title,
+                Author = dto.Author,
+                Publisher = dto.Publisher,
+                PublishYear = dto.PublishYear,
+                Quantity = dto.Quantity,
+                CategoryId = dto.CategoryId
+            };
+
+            _context.Books.Add(book);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(
+                nameof(GetBook),
+                new { id = book.Id },
+                book
+            );
+        }
+
+        // PUT: api/books/1
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateBook(int id, BookDto dto)
+        {
+            var book = await _context.Books.FindAsync(id);
+
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            var categoryExists =
+                await _context.Categories.AnyAsync(c => c.Id == dto.CategoryId);
+
+            if (!categoryExists)
+            {
+                return BadRequest("Thể loại không tồn tại.");
+            }
+
+            book.Title = dto.Title;
+            book.Author = dto.Author;
+            book.Publisher = dto.Publisher;
+            book.PublishYear = dto.PublishYear;
+            book.Quantity = dto.Quantity;
+            book.CategoryId = dto.CategoryId;
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        // DELETE: api/books/1
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteBook(int id)
+        {
+            var book = await _context.Books.FindAsync(id);
+
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            _context.Books.Remove(book);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        // GET: api/books/search?keyword=java
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<Book>>> SearchBooks(
+            string keyword)
+        {
+            var books = await _context.Books
+                .Include(b => b.Category)
+                .Where(b =>
+                    b.Title.Contains(keyword) ||
+                    b.Author.Contains(keyword))
+                .ToListAsync();
+
+            return books;
+        }
+    }
+}
