@@ -51,6 +51,9 @@ namespace WebApplication1.Controllers
                     Email = u.Email,
                     PhoneNumber = u.PhoneNumber,
                     Address = u.Address,
+                    StudentCode = u.StudentCode,
+                    Department = u.Department,
+                    ClassRoom = u.ClassRoom,
                     Role = u.Role,
                     CreatedAt = u.CreatedAt,
                     IsActive = u.IsActive
@@ -115,6 +118,9 @@ namespace WebApplication1.Controllers
                 Email = dto.Email,
                 PhoneNumber = dto.PhoneNumber,
                 Address = dto.Address,
+                StudentCode = dto.StudentCode,
+                Department = dto.Department,
+                ClassRoom = dto.ClassRoom,
 
                 Role = "Reader",
 
@@ -148,6 +154,9 @@ namespace WebApplication1.Controllers
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 Address = user.Address,
+                StudentCode = user.StudentCode,
+                Department = user.Department,
+                ClassRoom = user.ClassRoom,
                 Role = user.Role,
                 CreatedAt = user.CreatedAt,
                 IsActive = user.IsActive
@@ -203,6 +212,9 @@ namespace WebApplication1.Controllers
             user.Email = dto.Email;
             user.PhoneNumber = dto.PhoneNumber;
             user.Address = dto.Address;
+            user.StudentCode = dto.StudentCode;
+            user.Department = dto.Department;
+            user.ClassRoom = dto.ClassRoom;
             user.Role = dto.Role;
             user.IsActive = dto.IsActive;
 
@@ -220,6 +232,9 @@ namespace WebApplication1.Controllers
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 Address = user.Address,
+                StudentCode = user.StudentCode,
+                Department = user.Department,
+                ClassRoom = user.ClassRoom,
                 Role = user.Role,
                 CreatedAt = user.CreatedAt,
                 IsActive = user.IsActive

@@ -13,13 +13,17 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     )
 );
 
+// Cấu hình EmailSettings
+builder.Services.Configure<WebApplication1.Models.EmailSettings>(
+    builder.Configuration.GetSection("EmailSettings")
+);
+
+// Đăng ký EmailService
+builder.Services.AddScoped<WebApplication1.Services.IEmailService, WebApplication1.Services.EmailService>();
+
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-);
 
 var app = builder.Build();
 

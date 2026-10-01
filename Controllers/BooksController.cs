@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
 using WebApplication1.DTOs;
@@ -58,9 +58,15 @@ namespace WebApplication1.Controllers
             {
                 Title = dto.Title,
                 Author = dto.Author,
+                ISBN = dto.ISBN,
                 Publisher = dto.Publisher,
                 PublishYear = dto.PublishYear,
                 Quantity = dto.Quantity,
+                AvailableQuantity = dto.AvailableQuantity ?? dto.Quantity,
+                ImageUrl = dto.ImageUrl,
+                Location = dto.Location,
+                Description = dto.Description,
+                Price = dto.Price,
                 CategoryId = dto.CategoryId
             };
 
@@ -95,9 +101,18 @@ namespace WebApplication1.Controllers
 
             book.Title = dto.Title;
             book.Author = dto.Author;
+            book.ISBN = dto.ISBN;
             book.Publisher = dto.Publisher;
             book.PublishYear = dto.PublishYear;
             book.Quantity = dto.Quantity;
+            if (dto.AvailableQuantity.HasValue)
+            {
+                book.AvailableQuantity = dto.AvailableQuantity.Value;
+            }
+            book.ImageUrl = dto.ImageUrl;
+            book.Location = dto.Location;
+            book.Description = dto.Description;
+            book.Price = dto.Price;
             book.CategoryId = dto.CategoryId;
 
             await _context.SaveChangesAsync();
@@ -131,7 +146,8 @@ namespace WebApplication1.Controllers
                 .Include(b => b.Category)
                 .Where(b =>
                     b.Title.Contains(keyword) ||
-                    b.Author.Contains(keyword))
+                    b.Author.Contains(keyword) ||
+                    (b.ISBN != null && b.ISBN.Contains(keyword)))
                 .ToListAsync();
 
             return books;

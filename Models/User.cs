@@ -34,8 +34,25 @@ namespace WebApplication1.Models
         [StringLength(20, ErrorMessage = "Vai trò tối đa 20 ký tự.")]
         public string Role { get; set; } = "Reader";
 
+        [StringLength(30, ErrorMessage = "Mã số sinh viên tối đa 30 ký tự.")]
+        public string? StudentCode { get; set; }
+
+        [StringLength(100, ErrorMessage = "Khoa/Viện tối đa 100 ký tự.")]
+        public string? Department { get; set; }
+
+        [StringLength(50, ErrorMessage = "Lớp sinh hoạt tối đa 50 ký tự.")]
+        public string? ClassRoom { get; set; }
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public bool IsActive { get; set; } = true;
+
+        // Navigation property (1 User có nhiều phiếu mượn)
+        [System.Text.Json.Serialization.JsonIgnore]
+        public ICollection<BorrowRecord> BorrowRecords { get; set; } = new List<BorrowRecord>();
+
+        // Navigation property (1 User có nhiều thông báo)
+        [System.Text.Json.Serialization.JsonIgnore]
+        public ICollection<Notification> Notifications { get; set; } = new List<Notification>();
     }
 }

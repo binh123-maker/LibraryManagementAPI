@@ -1,4 +1,4 @@
-﻿namespace WebApplication1.DTOs
+namespace WebApplication1.DTOs
 {
     public class UserResponseDto
     {
@@ -13,6 +13,12 @@
         public string? PhoneNumber { get; set; }
 
         public string? Address { get; set; }
+
+        public string? StudentCode { get; set; }
+
+        public string? Department { get; set; }
+
+        public string? ClassRoom { get; set; }
 
         public string Role { get; set; } = string.Empty;
 

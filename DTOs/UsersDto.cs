@@ -28,6 +28,15 @@ namespace WebApplication1.DTOs
         [StringLength(255, ErrorMessage = "Địa chỉ không được vượt quá 255 ký tự.")]
         public string? Address { get; set; }
 
+        [StringLength(30, ErrorMessage = "Mã số sinh viên tối đa 30 ký tự.")]
+        public string? StudentCode { get; set; }
+
+        [StringLength(100, ErrorMessage = "Khoa/Viện tối đa 100 ký tự.")]
+        public string? Department { get; set; }
+
+        [StringLength(50, ErrorMessage = "Lớp sinh hoạt tối đa 50 ký tự.")]
+        public string? ClassRoom { get; set; }
+
         public string Role { get; set; } = "Reader";
 
         public bool IsActive { get; set; } = true;
