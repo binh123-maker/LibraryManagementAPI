@@ -21,6 +21,10 @@ builder.Services.Configure<WebApplication1.Models.EmailSettings>(
 // Đăng ký EmailService
 builder.Services.AddScoped<WebApplication1.Services.IEmailService, WebApplication1.Services.EmailService>();
 
+// Đăng ký Repository & Service (User)
+builder.Services.AddScoped<WebApplication1.Repositories.IUserRepository, WebApplication1.Repositories.UserRepository>();
+builder.Services.AddScoped<WebApplication1.Services.IUserService, WebApplication1.Services.UserService>();
+
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

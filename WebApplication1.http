@@ -3,4 +3,49 @@
 GET {{WebApplication1_HostAddress}}/weatherforecast/
 Accept: application/json
 
-###
+### 1. Lấy danh sách tất cả người dùng
+GET {{WebApplication1_HostAddress}}/api/users
+Accept: application/json
+
+### 2. Đăng ký tài khoản mới (POST /api/users/register)
+POST {{WebApplication1_HostAddress}}/api/users/register
+Content-Type: application/json
+
+{
+  "username": "sinhvien1",
+  "email": "sinhvien1@example.com",
+  "password": "Password123@",
+  "fullName": "Nguyễn Văn Sinh Viên",
+  "phoneNumber": "0987654321",
+  "role": "Reader",
+  "studentCode": "SV001",
+  "department": "CNTT",
+  "classRoom": "D21_TH01"
+}
+
+### 3. Đăng nhập (POST /api/users/login)
+POST {{WebApplication1_HostAddress}}/api/users/login
+Content-Type: application/json
+
+{
+  "username": "sinhvien1",
+  "password": "Password123@"
+}
+
+### 4. Lấy thông tin người dùng theo Id (GET /api/users/{id})
+GET {{WebApplication1_HostAddress}}/api/users/1
+Accept: application/json
+
+### 5. Cập nhật thông tin người dùng (PUT /api/users/{id})
+PUT {{WebApplication1_HostAddress}}/api/users/1
+Content-Type: application/json
+
+{
+  "fullName": "Quản Trị Viên (Updated)",
+  "phoneNumber": "0909999999",
+  "address": "Phòng A101"
+}
+
+### 6. Xóa người dùng theo Id (DELETE /api/users/{id})
+DELETE {{WebApplication1_HostAddress}}/api/users/2
+
