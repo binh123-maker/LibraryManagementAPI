@@ -18,28 +18,20 @@ namespace WebApplication1.Controllers
         }
 
         // GET: api/books
+        // GET: api/books?title=lap+trinh
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
+        public async Task<ActionResult<IEnumerable<Book>>> GetBooks([FromQuery] string? title)
         {
-            return await _context.Books
+            var query = _context.Books
                 .Include(b => b.Category)
-                .ToListAsync();
-        }
+                .AsQueryable();
 
-        // GET: api/books/1
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Book>> GetBook(int id)
-        {
-            var book = await _context.Books
-                .Include(b => b.Category)
-                .FirstOrDefaultAsync(b => b.Id == id);
-
-            if (book == null)
+            if (!string.IsNullOrWhiteSpace(title))
             {
-                return NotFound();
+                query = query.Where(b => b.Title.Contains(title));
             }
 
-            return book;
+            return await query.ToListAsync();
         }
 
         // POST: api/books
@@ -74,7 +66,7 @@ namespace WebApplication1.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(
-                nameof(GetBook),
+                nameof(GetBooks),
                 new { id = book.Id },
                 book
             );
