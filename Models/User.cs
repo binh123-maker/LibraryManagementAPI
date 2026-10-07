@@ -15,8 +15,11 @@ namespace WebApplication1.Models
         [StringLength(50, MinimumLength = 3, ErrorMessage = "Tên đăng nhập phải từ 3 đến 50 ký tự.")]
         public string Username { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Mật khẩu không được để trống.")]
-        public string PasswordHash { get; set; } = string.Empty;
+        [Required]
+        public byte[] PasswordHash { get; set; } = Array.Empty<byte>();
+
+        [Required]
+        public byte[] PasswordSalt { get; set; } = Array.Empty<byte>();
 
         [Required(ErrorMessage = "Email không được để trống.")]
         [EmailAddress(ErrorMessage = "Email không đúng định dạng.")]

@@ -40,4 +40,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+// Tự động Seed tài khoản Admin và dữ liệu ban đầu
+await DbInitializer.SeedAsync(app.Services);
+
 app.Run();
