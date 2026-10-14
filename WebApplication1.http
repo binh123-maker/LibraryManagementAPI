@@ -1,4 +1,4 @@
-@WebApplication1_HostAddress = http://localhost:5271
+    @WebApplication1_HostAddress = http://localhost:5271
 
 GET {{WebApplication1_HostAddress}}/weatherforecast/
 Accept: application/json
@@ -12,8 +12,8 @@ POST {{WebApplication1_HostAddress}}/api/users/register
 Content-Type: application/json
 
 {
-  "username": "sinhvien1",
-  "email": "sinhvien1@example.com",
+  "username": "sinhvien2",
+  "email": "sinhvien2@example.com",
   "password": "Password123@",
   "fullName": "Nguyễn Văn Sinh Viên",
   "phoneNumber": "0987654321",
@@ -33,11 +33,11 @@ Content-Type: application/json
 }
 
 ### 4. Lấy thông tin người dùng theo Id (GET /api/users/{id})
-GET {{WebApplication1_HostAddress}}/api/users/1
+GET {{WebApplication1_HostAddress}}/api/users/2
 Accept: application/json
 
 ### 5. Cập nhật thông tin người dùng (PUT /api/users/{id})
-PUT {{WebApplication1_HostAddress}}/api/users/1
+PUT {{WebApplication1_HostAddress}}/api/users/2
 Content-Type: application/json
 
 {

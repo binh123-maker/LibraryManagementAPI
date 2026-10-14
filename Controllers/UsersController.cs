@@ -10,10 +10,13 @@ namespace WebApplication1.Controllers
     {
         private readonly IUserService _userService;
 
+        private readonly IAuthService _authService;
+
         // Inject IUserService thay vì AppDbContext
-        public UsersController(IUserService userService)
+        public UsersController(IUserService userService, IAuthService authService)
         {
             _userService = userService;
+            _authService = authService;
         }
 
         [HttpGet]
@@ -48,15 +51,14 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<UserResponseDto>> Login([FromBody] LoginDto request)
+        public async Task<IActionResult> Login([FromBody] LoginDto dto) // <-- Sử dụng LoginDto
         {
-            var result = await _userService.LoginAsync(request);
-            if (!result.IsSuccess)
+            var token = await _authService.LoginAsync(dto);
+            if (token == null)
             {
-                return BadRequest(new { message = result.Message });
+                return Unauthorized(new { message = "Tên đăng nhập hoặc mật khẩu không chính xác." });
             }
-
-            return Ok(result.Data);
+            return Ok(new { Token = token });
         }
 
         [HttpPut("{id:int}")]
