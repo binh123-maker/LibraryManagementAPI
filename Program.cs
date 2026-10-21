@@ -1,6 +1,8 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 using WebApplication1.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,7 +26,8 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = jwtSettings["Issuer"],
         ValidAudience = jwtSettings["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(secretKey))
+        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(secretKey)),
+        RoleClaimType = ClaimTypes.Role
     };
 });
 
@@ -52,21 +55,27 @@ builder.Services.AddScoped<WebApplication1.Services.IUserService, WebApplication
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
+// 2. Bổ sung đoạn này để hiện nút Authorize trên Swagger
 builder.Services.AddSwaggerGen(options =>
 {
-    options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.OpenApiSecurityScheme
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "ProjectAPIdemo", Version = "v1" });
+
+    // Định nghĩa khung nhập Token
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
-        Type = Microsoft.OpenApi.SecuritySchemeType.Http,
+        Type = SecuritySchemeType.Http,
         Scheme = "Bearer",
         BearerFormat = "JWT",
-        In = Microsoft.OpenApi.ParameterLocation.Header,
-        Description = "Nhập token JWT vào đây (không cần gõ chữ Bearer):"
+        In = ParameterLocation.Header,
+        Description = "Nhập trực tiếp chuỗi Token thu được sau khi Login."
     });
-    options.AddSecurityRequirement(document => new Microsoft.OpenApi.OpenApiSecurityRequirement
+
+    // Áp dụng khung nhập Token cho toàn bộ API
+    options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
     {
         {
-            new Microsoft.OpenApi.OpenApiSecuritySchemeReference("Bearer", document),
+            new OpenApiSecuritySchemeReference("Bearer", document),
             new List<string>()
         }
     });

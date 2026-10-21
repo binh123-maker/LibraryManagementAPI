@@ -7,8 +7,8 @@ Accept: application/json
 GET {{WebApplication1_HostAddress}}/api/users
 Accept: application/json
 
-### 2. Đăng ký tài khoản mới (POST /api/users/register)
-POST {{WebApplication1_HostAddress}}/api/users/register
+### 2. Đăng ký tài khoản mới (POST /api/auth/register)
+POST {{WebApplication1_HostAddress}}/api/auth/register
 Content-Type: application/json
 
 {
@@ -17,18 +17,18 @@ Content-Type: application/json
   "password": "Password123@",
   "fullName": "Nguyễn Văn Sinh Viên",
   "phoneNumber": "0987654321",
-  "role": "Reader",
+  "role": "Student",
   "studentCode": "SV001",
   "department": "CNTT",
   "classRoom": "D21_TH01"
 }
 
-### 3. Đăng nhập (POST /api/users/login)
-POST {{WebApplication1_HostAddress}}/api/users/login
+### 3. Đăng nhập (POST /api/auth/login)
+POST {{WebApplication1_HostAddress}}/api/auth/login
 Content-Type: application/json
 
 {
-  "username": "sinhvien1",
+  "username": "sinhvien2",
   "password": "Password123@"
 }
 
