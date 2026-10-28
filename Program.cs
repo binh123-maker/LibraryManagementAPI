@@ -41,6 +41,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     )
 );
 
+builder.Services.AddScoped<WebApplication1.Repositories.IFileRepository, WebApplication1.Repositories.FileRepository>();
+builder.Services.AddScoped<WebApplication1.Services.IFileService, WebApplication1.Services.FileService>();
+
 // Cấu hình EmailSettings
 builder.Services.Configure<WebApplication1.Models.EmailSettings>(
     builder.Configuration.GetSection("EmailSettings")

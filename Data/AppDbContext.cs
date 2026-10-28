@@ -16,6 +16,7 @@ namespace WebApplication1.Data
         public DbSet<BorrowRecord> BorrowRecords { get; set; }
         public DbSet<BorrowDetail> BorrowDetails { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<StoredFile> StoredFiles { get; set; }    
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
